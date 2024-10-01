@@ -1,12 +1,23 @@
 /*
-	sort
-	This problem requires you to implement a sorting algorithm
-	you can use bubble sorting, insertion sorting, heap sorting, etc.
+    sort
+    This problem requires you to implement a sorting algorithm
+    you can use bubble sorting, insertion sorting, heap sorting, etc.
 */
-// I AM NOT DONE
 
-fn sort<T>(array: &mut [T]){
-	//TODO
+fn sort<T: Ord + Clone>(array: &mut [T]) {
+    let len = array.len();
+    for i in 1..len {
+        let key = array[i].clone();
+        let mut j = i;
+
+        // 移动大于 key 的元素到右边
+        while j > 0 && array[j - 1] > key {
+            array[j] = array[j - 1].clone(); // 移动元素
+            j -= 1; // 在此处安全减少 j
+        }
+        // 插入 key
+        array[j] = key;
+    }
 }
 #[cfg(test)]
 mod tests {
@@ -18,13 +29,13 @@ mod tests {
         sort(&mut vec);
         assert_eq!(vec, vec![19, 37, 46, 57, 64, 73, 75, 91]);
     }
-	#[test]
+    #[test]
     fn test_sort_2() {
         let mut vec = vec![1];
         sort(&mut vec);
         assert_eq!(vec, vec![1]);
     }
-	#[test]
+    #[test]
     fn test_sort_3() {
         let mut vec = vec![99, 88, 77, 66, 55, 44, 33, 22, 11];
         sort(&mut vec);
